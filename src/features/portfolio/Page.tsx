@@ -1,12 +1,25 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { BiSolidInvader, BiSolidKeyboard } from 'react-icons/bi'
 import { LuGithub, LuLinkedin, LuMail } from 'react-icons/lu'
 import { PortfolioProject } from './Project'
 
 export function PortfolioPage() {
+    const [showToast, setShowToast] = useState(false)
+
+    useEffect(() => {
+        if (showToast) {
+            const toastTimeout = setTimeout(() => {
+                setShowToast(false)
+            }, 1500)
+
+            return () => clearTimeout(toastTimeout)
+        }
+    }, [showToast])
+
     const copyEmailToClipboard = useCallback(async () => {
         try {
             await navigator.clipboard.writeText('pedrovdevx@gmail.com')
+            setShowToast(true)
         } catch {
             console.log('Failed to copy text.')
         }
@@ -33,12 +46,14 @@ export function PortfolioPage() {
                     >
                         <LuLinkedin className="size-6" />
                     </a>
-                    <button
-                        className="btn btn-circle btn-ghost"
-                        onClick={() => copyEmailToClipboard()}
-                    >
-                        <LuMail className="size-6" />
-                    </button>
+                    <div className="tooltip" data-tip="Copy">
+                        <button
+                            className="btn btn-circle btn-ghost"
+                            onClick={() => copyEmailToClipboard()}
+                        >
+                            <LuMail className="size-6" />
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -90,15 +105,25 @@ export function PortfolioPage() {
                         LinkedIn
                     </a>{' '}
                     or{' '}
-                    <button
-                        className="link"
-                        onClick={() => copyEmailToClipboard()}
-                    >
-                        email
-                    </button>
+                    <div className="tooltip" data-tip="Copy">
+                        <button
+                            className="link"
+                            onClick={() => copyEmailToClipboard()}
+                        >
+                            email
+                        </button>
+                    </div>
                     .
                 </p>
             </section>
+
+            {showToast && (
+                <div className="toast">
+                    <p className="alert alert-soft text-base-content">
+                        Email copied to clipboard.
+                    </p>
+                </div>
+            )}
         </main>
     )
 }
