@@ -1,5 +1,7 @@
+import { PortfolioPage } from "./features/portfolio";
+
 function App() {
-  return <h1 className="text-xl font-black">Hello, world!</h1>;
+  return <PortfolioPage />;
 }
 
 export default App;
