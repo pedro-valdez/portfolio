@@ -1,7 +1,7 @@
-import { PortfolioPage } from "./features/portfolio";
+import { PortfolioPage } from './features/portfolio'
 
 function App() {
-  return <PortfolioPage />;
+    return <PortfolioPage />
 }
 
-export default App;
+export default App
